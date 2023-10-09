@@ -2,5 +2,20 @@
 
 <input type="text" [(ngModel)]="text" />
 
-<button (click)="encrypt()">Encrypter</button>
-<button (click)="decrypt()">Decrypter</button>
+<button (click)="caesarEncrypt()">Encrypter</button>
+<button (click)="caesarDecrypt()">Decrypter</button>
+
+<h1>Algorithme De Caesar Polyalphabetique</h1>
+
+<input type="text" [(ngModel)]="polyalphabeticText" />
+
+<button (click)="polyalphabeticEncrypt()">Encrypter</button>
+<button (click)="polyalphabeticDecrypt()">Decrypter</button>
+
+
+<h1>Algorithme De Replacement</h1>
+
+<input type="text" [(ngModel)]="replacementText" />
+
+<button (click)="replacementEncrypt()">Encrypter</button>
+<button (click)="replacementDecrypt()">Decrypter</button>
