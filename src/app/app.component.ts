@@ -6,7 +6,7 @@ import { ReplacementService } from './services/replacement-service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styles: [],
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   text: string = '';
@@ -34,24 +34,24 @@ export class AppComponent {
   polyalphabeticEncrypt() {
     return this.polyalphabetic
       .encrypt(this.polyalphabeticText)
-      .subscribe((res) => this.polyalphabeticText = res.text);
+      .subscribe((res) => (this.polyalphabeticText = res.text));
   }
 
   polyalphabeticDecrypt() {
     return this.polyalphabetic
       .decrypt(this.polyalphabeticText)
-      .subscribe((res) => this.polyalphabeticText = res.text);
+      .subscribe((res) => (this.polyalphabeticText = res.text));
   }
 
   replacementEncrypt() {
     return this.replacement
       .encrypt(this.replacementText)
-      .subscribe((res) => this.replacementText = res.text);
+      .subscribe((res) => (this.replacementText = res.text));
   }
 
   replacementDecrypt() {
     return this.replacement
       .decrypt(this.replacementText)
-      .subscribe((res) => this.replacementText = res.text);
+      .subscribe((res) => (this.replacementText = res.text));
   }
 }
