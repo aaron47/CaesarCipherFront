@@ -1,18 +1,1 @@
-<div class="container">
-  <div class="card">
-    <h1 class="title">Algorithme De Caesar Monoalphabetique</h1>
-    <input type="text" [(ngModel)]="text" class="input-field" />
-    <button (click)="caesarEncrypt()" class="button">Encrypter</button>
-    <button (click)="caesarDecrypt()" class="button">Decrypter</button>
-
-    <h1 class="title">Algorithme De Caesar Polyalphabetique</h1>
-    <input type="text" [(ngModel)]="polyalphabeticText" class="input-field" />
-    <button (click)="polyalphabeticEncrypt()" class="button">Encrypter</button>
-    <button (click)="polyalphabeticDecrypt()" class="button">Decrypter</button>
-
-    <h1 class="title">Algorithme De Replacement</h1>
-    <input type="text" [(ngModel)]="replacementText" class="input-field" />
-    <button (click)="replacementEncrypt()" class="button">Encrypter</button>
-    <button (click)="replacementDecrypt()" class="button">Decrypter</button>
-  </div>
-</div>
+<router-outlet></router-outlet>
