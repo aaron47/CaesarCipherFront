@@ -1,0 +1,5 @@
+export enum Algorithm {
+  CAESEAR_CIPHER,
+  CAESAR_CIPHER_POLYALPHABETIC,
+  REPLACEMENT,
+}

@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Response } from '../../utils/types/response';
 import { saveAs } from 'file-saver';
+import { Algorithm } from '../../utils/types/algorithm';
 
 type FileStatus = {
   status: string;
@@ -16,6 +17,8 @@ type FileStatus = {
   templateUrl: './file-upload.page.html',
 })
 export class FileUploadPage {
+  protected readonly Algorithm = Algorithm;
+
   fileNames: string[] = [];
   fileStatus: FileStatus = {
     status: '',
@@ -23,46 +26,48 @@ export class FileUploadPage {
     percent: 0,
   };
 
-  encryptedText = '';
+  caesarText = '';
+  polyalphabeticText = '';
+  replacementText = '';
 
   constructor(
     private readonly fileService: FileService,
-    private readonly destroyRef: DestroyRef
+    private readonly destroyRef: DestroyRef,
   ) {}
 
-  onUploadFiles(event: Event): void {
+  onUploadFiles(event: Event, algorithm: Algorithm): void {
     const input = event.target as HTMLInputElement;
-
-    // Make sure files are selected
     if (!input.files || input.files.length === 0) return;
 
     const formData = new FormData();
 
-    // Loop through the files and append them to the FormData object
     for (let i = 0; i < input.files.length; i++) {
       formData.append('files', input.files[i], input.files[i].name);
     }
 
     this.fileService
-      .upload(formData)
+      .upload(formData, algorithm)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event) => {
         console.log(event);
-        this.reportProgress(event);
+        this.reportProgress(event, algorithm);
       });
   }
 
-  onDownloadFiles(fileName: string): void {
-    this.fileService
-      .download(fileName)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((event) => {
-        console.log(event);
-        this.reportProgress(event);
-      });
-  }
+  // onDownloadFiles(fileName: string): void {
+  //   this.fileService
+  //     .download(fileName)
+  //     .pipe(takeUntilDestroyed(this.destroyRef))
+  //     .subscribe((event) => {
+  //       console.log(event);
+  //       this.reportProgress(event);
+  //     });
+  // }
 
-  private reportProgress(httpEvent: HttpEvent<Response | Blob>): void {
+  private reportProgress(
+    httpEvent: HttpEvent<Response | Blob>,
+    algorithm: Algorithm,
+  ): void {
     switch (httpEvent.type) {
       case HttpEventType.UploadProgress:
         this.updateStauts(httpEvent.loaded, httpEvent.total!, 'Uploading');
@@ -86,11 +91,25 @@ export class FileUploadPage {
               httpEvent.headers.get('File-Name')!,
               {
                 type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`,
-              }
-            )
+              },
+            ),
           );
 
-          this.encryptedText = (httpEvent.body as Response).encrypted_text;
+          switch (algorithm) {
+            case Algorithm.CAESEAR_CIPHER:
+              this.caesarText = (httpEvent.body as Response).encrypted_text;
+              break;
+            case Algorithm.CAESAR_CIPHER_POLYALPHABETIC:
+              this.polyalphabeticText = (
+                httpEvent.body as Response
+              ).encrypted_text;
+              break;
+            case Algorithm.REPLACEMENT:
+              this.replacementText = (
+                httpEvent.body as Response
+              ).encrypted_text;
+              break;
+          }
         }
         this.fileStatus.status = 'done';
         break;

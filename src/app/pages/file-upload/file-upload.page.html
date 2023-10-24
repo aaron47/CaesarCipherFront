@@ -1,68 +1,84 @@
-<div class="container" style="margin-top: 20px">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4>Upload and Download Files</h4>
-    </div>
-    <br />
-    <div class="panel-body">
-      <strong>Select files from your computer</strong>
-      <div *ngIf="fileStatus.status==='progress'">
-        <!-- <div class="progress">
-          <div
-            [style.width.%]="fileStatus.percent"
-            class="progress-bar progress-bar-animated bg-info"
-            role="progressbar"
-            aria-valuenow="50"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            {{ fileStatus.requestType }} {{ fileStatus.percent }}
-          </div>
-        </div> -->
+<div class="flex flex-col justify-center items-center space-y-4">
+  <strong>Selectionner votre fichier</strong>
+  <h1 class="text-2xl">Algorithme De Caesar</h1>
 
-        <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-          <div
-            class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-            [style.width.%]="fileStatus.percent"
-          >
-            {{ fileStatus.requestType }} {{ fileStatus.percent }}
-          </div>
-        </div>
+  <ng-container *ngIf="fileStatus.status==='progress'">
+    <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+      <div
+        class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+        [style.width.%]="fileStatus.percent"
+      >
+        {{ fileStatus.requestType }} {{ fileStatus.percent }}%
       </div>
-      <hr />
-
-      <form enctype="multipart/form-data">
-        <fieldset>
-          <div class="form-group">
-            <div>
-              <input
-                type="file"
-                (change)="onUploadFiles($event)"
-                name="files"
-                multiple
-                class="form-control"
-              />
-            </div>
-          </div>
-        </fieldset>
-      </form>
-
-      <br />
-
-      <p *ngIf="encryptedText">{{encryptedText}}</p>
-      <!-- <div *ngIf="filenames?.length > 0" class="js-upload-finished">
-        <h3>Processed files</h3>
-        <div *ngFor="let filename of filenames" class="list-group">
-          <a
-            (click)="onDownloadFile(filename)"
-            class="list-group-item list-group-item-success"
-            style="cursor: pointer"
-          >
-            {{ filename }}
-            <a class="alert-success float-right">Download</a> </a
-          ><br />
-        </div>
-      </div> -->
     </div>
-  </div>
+  </ng-container>
+
+  <form enctype="multipart/form-data">
+    <div>
+      <input
+        type="file"
+        (change)="onUploadFiles($event, Algorithm.CAESEAR_CIPHER)"
+        name="files"
+        multiple
+        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
+    </div>
+  </form>
+
+  <br />
+
+  <p *ngIf="caesarText">{{ caesarText }}</p>
+  <!-- <div *ngIf="filenames?.length > 0" class="js-upload-finished">
+      <h3>Processed files</h3>
+      <div *ngFor="let filename of filenames" class="list-group">
+        <a
+          (click)="onDownloadFile(filename)"
+          class="list-group-item list-group-item-success"
+          style="cursor: pointer"
+        >
+          {{ filename }}
+          <a class="alert-success float-right">Download</a> </a
+        ><br />
+      </div>
+    </div> -->
+</div>
+
+<div class="flex flex-col items-center justify-center space-y-4">
+  <h1 class="text-2xl">Algorithme De Caesar Polyalphabetique</h1>
+
+  <form enctype="multipart/form-data">
+    <div>
+      <input
+        type="file"
+        (change)="onUploadFiles($event, Algorithm.CAESAR_CIPHER_POLYALPHABETIC)"
+        name="files"
+        multiple
+        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
+    </div>
+  </form>
+
+  <br />
+
+  <p *ngIf="polyalphabeticText">{{ polyalphabeticText }}</p>
+</div>
+
+<div class="flex flex-col items-center justify-center space-y-4">
+  <h1 class="text-2xl">Algorithme De Remplacement</h1>
+
+  <form enctype="multipart/form-data">
+    <div>
+      <input
+        type="file"
+        (change)="onUploadFiles($event, Algorithm.REPLACEMENT)"
+        name="files"
+        multiple
+        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      />
+    </div>
+  </form>
+
+  <br />
+
+  <p *ngIf="replacementText">{{ replacementText }}</p>
 </div>

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 
 export abstract class AbstractService {
-  constructor(public baseUrl: string) {}
+  protected constructor(public baseUrl: string) {}
 
   private readonly http = inject(HttpClient);
 
