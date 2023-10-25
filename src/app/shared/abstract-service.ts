@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 
 export abstract class AbstractService {
-  protected constructor(public baseUrl: string) {}
+  protected constructor(private readonly baseUrl: string) {}
 
   private readonly http = inject(HttpClient);
 
@@ -11,7 +11,6 @@ export abstract class AbstractService {
   }
 
   decrypt(text: string) {
-    console.log(`BASE URL: ${this.baseUrl}`)
     return this.http.post<{ text: string }>(`${this.baseUrl}/decrypt`, text);
   }
 }

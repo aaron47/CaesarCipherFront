@@ -5,12 +5,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Response } from '../../utils/types/response';
 import { saveAs } from 'file-saver';
 import { Algorithm } from '../../utils/types/algorithm';
-
-type FileStatus = {
-  status: string;
-  requestType: string;
-  percent: number;
-};
+import { FileStatus } from 'src/app/utils/types/file-status';
 
 @Component({
   selector: 'app-file-upload',
@@ -95,19 +90,17 @@ export class FileUploadPage {
             ),
           );
 
+          const encryptedText = (httpEvent.body as Response).encrypted_text;
+
           switch (algorithm) {
             case Algorithm.CAESEAR_CIPHER:
-              this.caesarText = (httpEvent.body as Response).encrypted_text;
+              this.caesarText = encryptedText;
               break;
             case Algorithm.CAESAR_CIPHER_POLYALPHABETIC:
-              this.polyalphabeticText = (
-                httpEvent.body as Response
-              ).encrypted_text;
+              this.polyalphabeticText = encryptedText;
               break;
             case Algorithm.REPLACEMENT:
-              this.replacementText = (
-                httpEvent.body as Response
-              ).encrypted_text;
+              this.replacementText = encryptedText;
               break;
           }
         }

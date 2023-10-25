@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractService } from './abstract-service';
+import { AbstractService } from '../shared/abstract-service';
 
 @Injectable({
   providedIn: 'root',
