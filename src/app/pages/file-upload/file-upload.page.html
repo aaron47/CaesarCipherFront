@@ -25,9 +25,13 @@
     </div>
   </form>
 
-  <br />
+  <ng-container *ngIf="caesarText">
+    <div class="flex flex-row space-x-2">
+      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+      <p class="text-2xl">{{ caesarText }}</p>
+    </div>
+  </ng-container>
 
-  <p *ngIf="caesarText">{{ caesarText }}</p>
   <!-- <div *ngIf="filenames?.length > 0" class="js-upload-finished">
       <h3>Processed files</h3>
       <div *ngFor="let filename of filenames" class="list-group">
@@ -60,7 +64,12 @@
 
   <br />
 
-  <p *ngIf="polyalphabeticText">{{ polyalphabeticText }}</p>
+  <ng-container *ngIf="polyalphabeticText">
+    <div class="flex flex-row space-x-2">
+      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+      <p class="text-2xl">{{ polyalphabeticText }}</p>
+    </div>
+  </ng-container>
 </div>
 
 <div class="flex flex-col items-center justify-center space-y-4">
@@ -79,6 +88,11 @@
   </form>
 
   <br />
-
-  <p *ngIf="replacementText">{{ replacementText }}</p>
+  
+  <ng-container *ngIf="replacementText">
+    <div class="flex flex-row space-x-2">
+      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+      <p class="text-2xl">{{ replacementText }}</p>
+    </div>
+  </ng-container>
 </div>
