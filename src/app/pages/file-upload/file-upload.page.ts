@@ -29,6 +29,7 @@ export class FileUploadPage {
   polyalphabeticText = '';
   replacementText = '';
   shift = 0;
+  key = '';
 
   constructor(
     private readonly caesar: CaesarCipherService,
@@ -61,7 +62,7 @@ export class FileUploadPage {
     }
   }
 
-  onUploadFiles(event: Event, algorithm: Algorithm): void {
+  onUploadFiles(event: Event, algorithm: Algorithm, shift?: number, key?: string): void {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
 
@@ -70,6 +71,9 @@ export class FileUploadPage {
     for (let i = 0; i < input.files.length; i++) {
       formData.append('files', input.files[i], input.files[i].name);
     }
+
+    shift && formData.append('shift', shift.toString());
+    key && formData.append('key', key);
 
     this.fileService
       .upload(formData, algorithm)
