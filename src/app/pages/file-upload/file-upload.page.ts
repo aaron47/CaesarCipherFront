@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { FileService } from '../../services/file.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
@@ -6,10 +6,14 @@ import { Response } from '../../utils/types/response';
 import { saveAs } from 'file-saver';
 import { Algorithm } from '../../utils/types/algorithm';
 import { FileStatus } from 'src/app/utils/types/file-status';
+import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
+import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
+import { ReplacementService } from 'src/app/services/replacement.service';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.page.html',
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploadPage {
   protected readonly Algorithm = Algorithm;
@@ -24,11 +28,38 @@ export class FileUploadPage {
   caesarText = '';
   polyalphabeticText = '';
   replacementText = '';
+  shift = 0;
 
   constructor(
+    private readonly caesar: CaesarCipherService,
+    private readonly polyalphabetic: CaesarPolyalphabeticService,
+    private readonly replacement: ReplacementService,
     private readonly fileService: FileService,
     private readonly destroyRef: DestroyRef,
   ) {}
+
+  decrypt(text: string, algorithm: Algorithm): void {
+    switch (algorithm) {
+      case Algorithm.CAESEAR_CIPHER:
+        this.caesar
+          .decrypt(text)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.caesarText = res.text));
+        break;
+      case Algorithm.CAESAR_CIPHER_POLYALPHABETIC:
+        this.polyalphabetic
+          .decrypt(text)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.polyalphabeticText = res.text));
+        break;
+      case Algorithm.REPLACEMENT:
+        this.replacement
+          .decrypt(text)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.replacementText = res.text));
+        break;
+    }
+  }
 
   onUploadFiles(event: Event, algorithm: Algorithm): void {
     const input = event.target as HTMLInputElement;
@@ -44,7 +75,6 @@ export class FileUploadPage {
       .upload(formData, algorithm)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event) => {
-        console.log(event);
         this.reportProgress(event, algorithm);
       });
   }
@@ -116,6 +146,5 @@ export class FileUploadPage {
     this.fileStatus.status = 'progress';
     this.fileStatus.requestType = reqType;
     this.fileStatus.percent = Math.round((loaded / total) * 100);
-    console.log(this.fileStatus.percent);
   }
 }

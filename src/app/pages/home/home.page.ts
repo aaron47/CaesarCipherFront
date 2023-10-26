@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
 import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
 import { ReplacementService } from 'src/app/services/replacement.service';
@@ -8,6 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage {
   text: string = '';

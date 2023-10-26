@@ -1,5 +1,5 @@
 <div class="flex flex-col justify-center items-center space-y-4">
-  <strong>Selectionner votre fichier</strong>
+  <strong>Selectionner votre fichier pour encrypter</strong>
   <h1 class="text-2xl">Algorithme De Caesar</h1>
 
   <ng-container *ngIf="fileStatus.status==='progress'">
@@ -22,13 +22,36 @@
         multiple
         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
       />
+
+      <div class="mb-6">
+        <label
+          for="default-input"
+          class="block mb-2 text-sm font-medium text-gray-900"
+          >Donner la valeur de N</label
+        >
+        <input
+          type="number"
+          id="default-input"
+          [(ngModel)]="shift"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+      </div>
     </div>
   </form>
 
   <ng-container *ngIf="caesarText">
-    <div class="flex flex-row space-x-2">
-      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
-      <p class="text-2xl">{{ caesarText }}</p>
+    <div class="flex flex-col space-y-2">
+      <div class="flex flex-row space-x-2">
+        <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+        <p class="text-2xl">{{ caesarText }}</p>
+      </div>
+
+      <button
+        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        (click)="decrypt(polyalphabeticText, Algorithm.CAESEAR_CIPHER)"
+      >
+        Decrypter
+      </button>
     </div>
   </ng-container>
 
@@ -65,9 +88,18 @@
   <br />
 
   <ng-container *ngIf="polyalphabeticText">
-    <div class="flex flex-row space-x-2">
-      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
-      <p class="text-2xl">{{ polyalphabeticText }}</p>
+    <div class="flex flex-col space-y-2">
+      <div class="flex flex-row space-x-2">
+        <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+        <p class="text-2xl">{{ polyalphabeticText }}</p>
+      </div>
+
+      <button
+        class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        (click)="decrypt(polyalphabeticText, Algorithm.CAESAR_CIPHER_POLYALPHABETIC)"
+      >
+        Decrypter
+      </button>
     </div>
   </ng-container>
 </div>
@@ -88,11 +120,20 @@
   </form>
 
   <br />
-  
+
   <ng-container *ngIf="replacementText">
-    <div class="flex flex-row space-x-2">
-      <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
-      <p class="text-2xl">{{ replacementText }}</p>
+    <div class="flex flex-col space-y-2">
+      <div class="flex flex-row space-x-2">
+        <h1 class="text-2xl text-green-600">Votre text encrypte:</h1>
+        <p class="text-2xl">{{ replacementText }}</p>
+      </div>
     </div>
+
+    <button
+      class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+      (click)="decrypt(polyalphabeticText, Algorithm.REPLACEMENT)"
+    >
+      Decrypter
+    </button>
   </ng-container>
 </div>
