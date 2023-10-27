@@ -9,6 +9,7 @@ import { FileStatus } from 'src/app/utils/types/file-status';
 import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
 import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
 import { ReplacementService } from 'src/app/services/replacement.service';
+import { EncryptOrDecrypt } from 'src/app/utils/types/encrypt-or-decrypt';
 
 @Component({
   selector: 'app-file-upload',
@@ -39,30 +40,53 @@ export class FileUploadPage {
     private readonly destroyRef: DestroyRef,
   ) {}
 
-  decrypt(text: string, algorithm: Algorithm): void {
+  decrypt(algorithm: Algorithm): void {
+    const ceasarData: EncryptOrDecrypt = {
+      text: this.caesarText,
+      key: this.key,
+      shift: undefined,
+    };
+
+    const polyalphabeticData: EncryptOrDecrypt = {
+      text: this.polyalphabeticText,
+      key: undefined,
+      shift: this.shift,
+    };
+
+    const replacementData: EncryptOrDecrypt = {
+      text: this.replacementText,
+      key: undefined,
+      shift: undefined,
+    };
+
     switch (algorithm) {
       case Algorithm.CAESEAR_CIPHER:
         this.caesar
-          .decrypt(text)
+          .decrypt(ceasarData, algorithm)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((res) => (this.caesarText = res.text));
         break;
       case Algorithm.CAESAR_CIPHER_POLYALPHABETIC:
         this.polyalphabetic
-          .decrypt(text)
+          .decrypt(polyalphabeticData, algorithm)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((res) => (this.polyalphabeticText = res.text));
         break;
       case Algorithm.REPLACEMENT:
         this.replacement
-          .decrypt(text)
+          .decrypt(replacementData, algorithm)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((res) => (this.replacementText = res.text));
         break;
     }
   }
 
-  onUploadFiles(event: Event, algorithm: Algorithm, shift?: number, key?: string): void {
+  onUploadFiles(
+    event: Event,
+    algorithm: Algorithm,
+    shift?: number,
+    key?: string,
+  ): void {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
 

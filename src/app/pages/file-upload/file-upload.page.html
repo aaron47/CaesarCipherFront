@@ -48,7 +48,7 @@
 
       <button
         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-        (click)="decrypt(polyalphabeticText, Algorithm.CAESEAR_CIPHER)"
+        (click)="decrypt(Algorithm.CAESEAR_CIPHER)"
       >
         Decrypter
       </button>
@@ -108,7 +108,7 @@
 
       <button
         class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-        (click)="decrypt(polyalphabeticText, Algorithm.CAESAR_CIPHER_POLYALPHABETIC)"
+        (click)="decrypt(Algorithm.CAESAR_CIPHER_POLYALPHABETIC)"
       >
         Decrypter
       </button>
@@ -143,7 +143,7 @@
 
     <button
       class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-      (click)="decrypt(polyalphabeticText, Algorithm.REPLACEMENT)"
+      (click)="decrypt(Algorithm.REPLACEMENT)"
     >
       Decrypter
     </button>
