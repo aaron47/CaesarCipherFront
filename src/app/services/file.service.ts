@@ -6,7 +6,7 @@ import { Algorithm } from '../utils/types/algorithm';
 
 @Injectable({ providedIn: 'root' })
 export class FileService {
-  private API_URL = 'http://localhost:8080/api/v1';
+  private readonly API_URL = 'http://localhost:8080/api/v1';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -40,6 +40,16 @@ export class FileService {
       case Algorithm.REPLACEMENT:
         response = this.http.post<Response>(
           `${this.API_URL}/replacement/upload/encrypt`,
+          formData,
+          {
+            reportProgress: true,
+            observe: 'events',
+          },
+        );
+        break;
+      case Algorithm.COLUMN_TRANSPOSITION:
+        response = this.http.post<Response>(
+          `${this.API_URL}/column_transposition/upload/encrypt`,
           formData,
           {
             reportProgress: true,

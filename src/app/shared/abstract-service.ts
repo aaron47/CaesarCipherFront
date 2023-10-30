@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { EncryptOrDecrypt } from '../utils/types/encrypt-or-decrypt';
-import { Algorithm } from '../utils/types/algorithm';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {inject} from '@angular/core';
+import {EncryptOrDecrypt} from '../utils/types/encrypt-or-decrypt';
+import {Algorithm} from '../utils/types/algorithm';
+import {Observable} from 'rxjs';
 
 export abstract class AbstractService {
   protected constructor(private readonly baseUrl: string) {}
@@ -34,6 +34,11 @@ export abstract class AbstractService {
           text,
         );
         break;
+      case Algorithm.COLUMN_TRANSPOSITION:
+        this.data$ = this.http.post<{ text: string }>(
+          `${this.baseUrl}/encrypt`,
+          polyalphabeticData,
+        );
     }
 
     return this.data$;
@@ -41,8 +46,8 @@ export abstract class AbstractService {
 
   decrypt(encryptOrDecryptData: EncryptOrDecrypt, algorithm: Algorithm) {
     const { text, shift, key } = encryptOrDecryptData;
-    const caesarData = { text, key };
-    const polyalphabeticData = { text, shift };
+    const caesarData = { text, shift };
+    const polyalphabeticData = { text, key };
 
     switch (algorithm) {
       case Algorithm.CAESEAR_CIPHER:
@@ -61,6 +66,12 @@ export abstract class AbstractService {
         this.data$ = this.http.post<{ text: string }>(
           `${this.baseUrl}/decrypt`,
           text,
+        );
+        break;
+      case Algorithm.COLUMN_TRANSPOSITION:
+        this.data$ = this.http.post<{ text: string }>(
+          `${this.baseUrl}/decrypt`,
+          polyalphabeticData,
         );
         break;
     }

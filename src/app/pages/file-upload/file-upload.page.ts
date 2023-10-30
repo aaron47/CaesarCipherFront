@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
-import { FileService } from '../../services/file.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Response } from '../../utils/types/response';
-import { saveAs } from 'file-saver';
-import { Algorithm } from '../../utils/types/algorithm';
-import { FileStatus } from 'src/app/utils/types/file-status';
-import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
-import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
-import { ReplacementService } from 'src/app/services/replacement.service';
-import { EncryptOrDecrypt } from 'src/app/utils/types/encrypt-or-decrypt';
+import {Component, DestroyRef} from '@angular/core';
+import {FileService} from '../../services/file.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {HttpEvent, HttpEventType} from '@angular/common/http';
+import {Response} from '../../utils/types/response';
+import {saveAs} from 'file-saver';
+import {Algorithm} from '../../utils/types/algorithm';
+import {FileStatus} from 'src/app/utils/types/file-status';
+import {CaesarCipherService} from 'src/app/services/caesar-cipher.service';
+import {CaesarPolyalphabeticService} from 'src/app/services/caesar-polyalphabetic.service';
+import {ReplacementService} from 'src/app/services/replacement.service';
+import {EncryptOrDecrypt} from 'src/app/utils/types/encrypt-or-decrypt';
+import {ColumnTranspositionService} from '../../services/column-transposition.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -29,13 +30,16 @@ export class FileUploadPage {
   caesarText = '';
   polyalphabeticText = '';
   replacementText = '';
+  columnTranspositionText = '';
   shift = 0;
   key = '';
+  columnTranspositionKey = '';
 
   constructor(
     private readonly caesar: CaesarCipherService,
     private readonly polyalphabetic: CaesarPolyalphabeticService,
     private readonly replacement: ReplacementService,
+    private readonly columnTransposition: ColumnTranspositionService,
     private readonly fileService: FileService,
     private readonly destroyRef: DestroyRef,
   ) {}
@@ -43,21 +47,22 @@ export class FileUploadPage {
   decrypt(algorithm: Algorithm): void {
     const ceasarData: EncryptOrDecrypt = {
       text: this.caesarText,
-      key: this.key,
-      shift: undefined,
+      shift: this.shift,
     };
 
     const polyalphabeticData: EncryptOrDecrypt = {
       text: this.polyalphabeticText,
-      key: undefined,
-      shift: this.shift,
+      key: this.key,
     };
 
     const replacementData: EncryptOrDecrypt = {
       text: this.replacementText,
-      key: undefined,
-      shift: undefined,
     };
+
+    const columnTranspositionData: EncryptOrDecrypt = {
+      text: this.columnTranspositionText,
+      key: this.columnTranspositionKey,
+    }
 
     switch (algorithm) {
       case Algorithm.CAESEAR_CIPHER:
@@ -78,6 +83,11 @@ export class FileUploadPage {
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((res) => (this.replacementText = res.text));
         break;
+      case Algorithm.COLUMN_TRANSPOSITION:
+        this.columnTransposition
+          .decrypt(columnTranspositionData, algorithm)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.columnTranspositionText = res.text));
     }
   }
 
@@ -159,6 +169,9 @@ export class FileUploadPage {
               break;
             case Algorithm.REPLACEMENT:
               this.replacementText = encryptedText;
+              break;
+            case Algorithm.COLUMN_TRANSPOSITION:
+              this.columnTranspositionText = encryptedText;
               break;
           }
         }

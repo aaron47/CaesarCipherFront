@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
 import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
 import { ReplacementService } from 'src/app/services/replacement.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Algorithm } from '../../utils/types/algorithm';
+import { EncryptOrDecrypt } from '../../utils/types/encrypt-or-decrypt';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage {
   text: string = '';
@@ -23,43 +24,71 @@ export class HomePage {
   ) {}
 
   caesarEncrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.text,
+      shift: 3,
+    };
+
     return this.caesar
-      .encrypt(this.text)
+      .encrypt(encryptOrDecryptData, Algorithm.CAESEAR_CIPHER)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.text = res.text));
   }
 
   caesarDecrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.text,
+      shift: 3,
+    };
+
     return this.caesar
-      .decrypt(this.text)
+      .decrypt(encryptOrDecryptData, Algorithm.CAESEAR_CIPHER)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.text = res.text));
   }
 
   polyalphabeticEncrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.polyalphabeticText,
+      key: 'LJKFELJKWRJKLWRJLKJGKLWJKLGWJKL',
+    };
+
     return this.polyalphabetic
-      .encrypt(this.polyalphabeticText)
+      .encrypt(encryptOrDecryptData, Algorithm.CAESAR_CIPHER_POLYALPHABETIC)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.polyalphabeticText = res.text));
   }
 
   polyalphabeticDecrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.polyalphabeticText,
+      key: 'LJKFELJKWRJKLWRJLKJGKLWJKLGWJKL',
+    };
+
     return this.polyalphabetic
-      .decrypt(this.polyalphabeticText)
+      .decrypt(encryptOrDecryptData, Algorithm.CAESAR_CIPHER_POLYALPHABETIC)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.polyalphabeticText = res.text));
   }
 
   replacementEncrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.replacementText,
+    };
+
     return this.replacement
-      .encrypt(this.replacementText)
+      .encrypt(encryptOrDecryptData, Algorithm.REPLACEMENT)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.replacementText = res.text));
   }
 
   replacementDecrypt() {
+    const encryptOrDecryptData: EncryptOrDecrypt = {
+      text: this.replacementText,
+    };
+
     return this.replacement
-      .decrypt(this.replacementText)
+      .decrypt(encryptOrDecryptData, Algorithm.REPLACEMENT)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res) => (this.replacementText = res.text));
   }
