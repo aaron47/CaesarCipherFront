@@ -12,8 +12,8 @@ export abstract class AbstractService {
 
   encrypt(encryptOrDecryptData: EncryptOrDecrypt, algorithm: Algorithm) {
     const { text, shift, key } = encryptOrDecryptData;
-    const caesarData = { text, key };
-    const polyalphabeticData = { text, shift };
+    const caesarData = { text, shift };
+    const polyalphabeticData = { text, key };
 
     switch (algorithm) {
       case Algorithm.CAESEAR_CIPHER:

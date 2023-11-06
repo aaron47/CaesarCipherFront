@@ -1,16 +1,16 @@
-import {Component, DestroyRef} from '@angular/core';
-import {FileService} from '../../services/file.service';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {HttpEvent, HttpEventType} from '@angular/common/http';
-import {Response} from '../../utils/types/response';
-import {saveAs} from 'file-saver';
-import {Algorithm} from '../../utils/types/algorithm';
-import {FileStatus} from 'src/app/utils/types/file-status';
-import {CaesarCipherService} from 'src/app/services/caesar-cipher.service';
-import {CaesarPolyalphabeticService} from 'src/app/services/caesar-polyalphabetic.service';
-import {ReplacementService} from 'src/app/services/replacement.service';
-import {EncryptOrDecrypt} from 'src/app/utils/types/encrypt-or-decrypt';
-import {ColumnTranspositionService} from '../../services/column-transposition.service';
+import { Component, DestroyRef } from '@angular/core';
+import { FileService } from '../../services/file.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Response } from '../../utils/types/response';
+import { saveAs } from 'file-saver';
+import { Algorithm } from '../../utils/types/algorithm';
+import { FileStatus } from 'src/app/utils/types/file-status';
+import { CaesarCipherService } from 'src/app/services/caesar-cipher.service';
+import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabetic.service';
+import { ReplacementService } from 'src/app/services/replacement.service';
+import { EncryptOrDecrypt } from 'src/app/utils/types/encrypt-or-decrypt';
+import { ColumnTranspositionService } from '../../services/column-transposition.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -62,7 +62,7 @@ export class FileUploadPage {
     const columnTranspositionData: EncryptOrDecrypt = {
       text: this.columnTranspositionText,
       key: this.columnTranspositionKey,
-    }
+    };
 
     switch (algorithm) {
       case Algorithm.CAESEAR_CIPHER:

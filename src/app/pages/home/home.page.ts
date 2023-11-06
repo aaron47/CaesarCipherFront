@@ -50,7 +50,7 @@ export class HomePage {
   polyalphabeticEncrypt() {
     const encryptOrDecryptData: EncryptOrDecrypt = {
       text: this.polyalphabeticText,
-      key: 'LJKFELJKWRJKLWRJLKJGKLWJKLGWJKL',
+      key: 'test',
     };
 
     return this.polyalphabetic
