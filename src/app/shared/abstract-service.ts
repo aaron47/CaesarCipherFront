@@ -1,8 +1,8 @@
-import {HttpClient} from '@angular/common/http';
-import {inject} from '@angular/core';
-import {EncryptOrDecrypt} from '../utils/types/encrypt-or-decrypt';
-import {Algorithm} from '../utils/types/algorithm';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { EncryptOrDecrypt } from '../utils/types/encrypt-or-decrypt';
+import { Algorithm } from '../utils/types/algorithm';
+import { Observable } from 'rxjs';
 
 export abstract class AbstractService {
   protected constructor(private readonly baseUrl: string) {}
@@ -72,6 +72,24 @@ export abstract class AbstractService {
         this.data$ = this.http.post<{ text: string }>(
           `${this.baseUrl}/decrypt`,
           polyalphabeticData,
+        );
+        break;
+      case Algorithm.DES:
+        this.data$ = this.http.post<{ text: string }>(
+          `${this.baseUrl}/decrypt`,
+          text,
+        );
+        break;
+      case Algorithm.AES:
+        this.data$ = this.http.post<{ text: string }>(
+          `${this.baseUrl}/decrypt`,
+          text,
+        );
+        break;
+      case Algorithm.RSA:
+        this.data$ = this.http.post<{ text: string }>(
+          `${this.baseUrl}/decrypt`,
+          text,
         );
         break;
     }

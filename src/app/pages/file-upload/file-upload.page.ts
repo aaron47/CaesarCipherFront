@@ -11,6 +11,9 @@ import { CaesarPolyalphabeticService } from 'src/app/services/caesar-polyalphabe
 import { ReplacementService } from 'src/app/services/replacement.service';
 import { EncryptOrDecrypt } from 'src/app/utils/types/encrypt-or-decrypt';
 import { ColumnTranspositionService } from '../../services/column-transposition.service';
+import { DesService } from 'src/app/services/des.service';
+import { AesService } from 'src/app/services/aes.service';
+import { RsaService } from 'src/app/services/rsa.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -35,11 +38,18 @@ export class FileUploadPage {
   key = '';
   columnTranspositionKey = '';
 
+  desText = '';
+  aesText = '';
+  rsaText = '';
+
   constructor(
     private readonly caesar: CaesarCipherService,
     private readonly polyalphabetic: CaesarPolyalphabeticService,
     private readonly replacement: ReplacementService,
     private readonly columnTransposition: ColumnTranspositionService,
+    private readonly desService: DesService,
+    private readonly aesService: AesService,
+    private readonly rsaService: RsaService,
     private readonly fileService: FileService,
     private readonly destroyRef: DestroyRef,
   ) {}
@@ -88,6 +98,25 @@ export class FileUploadPage {
           .decrypt(columnTranspositionData, algorithm)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe((res) => (this.columnTranspositionText = res.text));
+        break;
+      case Algorithm.DES:
+        this.desService
+          .decrypt({ text: this.desText }, algorithm)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.desText = res.text));
+        break;
+      case Algorithm.AES:
+        this.aesService
+          .decrypt({ text: this.aesText }, algorithm)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.aesText = res.text));
+        break;
+      case Algorithm.RSA:
+        this.rsaService
+          .decrypt({ text: this.rsaText }, algorithm)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((res) => (this.rsaText = res.text));
+        break;
     }
   }
 
@@ -172,6 +201,15 @@ export class FileUploadPage {
               break;
             case Algorithm.COLUMN_TRANSPOSITION:
               this.columnTranspositionText = encryptedText;
+              break;
+            case Algorithm.DES:
+              this.desText = encryptedText;
+              break;
+            case Algorithm.AES:
+              this.aesText = encryptedText;
+              break;
+            case Algorithm.RSA:
+              this.rsaText = encryptedText;
               break;
           }
         }

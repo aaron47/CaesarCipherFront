@@ -57,6 +57,27 @@ export class FileService {
           },
         );
         break;
+      case Algorithm.DES:
+        response = this.http.post<Response>(
+          `${this.API_URL}/des/upload/encrypt`,
+          formData,
+          { reportProgress: true, observe: 'events' },
+        );
+        break;
+      case Algorithm.AES:
+        response = this.http.post<Response>(
+          `${this.API_URL}/aes/upload/encrypt`,
+          formData,
+          { reportProgress: true, observe: 'events' },
+        );
+        break;
+      case Algorithm.RSA:
+        response = this.http.post<Response>(
+          `${this.API_URL}/rsa/upload/encrypt`,
+          formData,
+          { reportProgress: true, observe: 'events' },
+        );
+        break;
     }
 
     return response;
